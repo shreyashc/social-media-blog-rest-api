@@ -1,0 +1,1 @@
+web: gunicorn blogrestapi.wsgi --log-file -

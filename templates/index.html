@@ -1,0 +1,1066 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <title>Blog REST API</title>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'css/indexstyles.css' %}"
+        />
+
+        <link rel="stylesheet" href="{% static 'css/prism.css' %}" />
+
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+            integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+            crossorigin="anonymous"
+        />
+    </head>
+    <body class="line-numbers">
+        <header>
+            <div class="container">
+                <h1>BLOG REST API</h1>
+                <nav>
+                    <div class="about">
+                        <a href="#about">About</a>
+                    </div>
+                    <div class="contact">
+                        <a href="#contact">Contact</a>
+                    </div>
+                    <div class="docs">
+                        <a href="#">Docs</a>
+                    </div>
+                </nav>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </header>
+        <div class="hero">
+            <div class="hero-txt">
+                Fully fledged rest api for social-media/blog.With Simple and
+                easy integration.create posts, update,like,comment and much
+                more. <br />
+                <a href="#start" class="get-started">Get Started</a>
+            </div>
+            <div class="blog-svg">
+                <img
+                    class="svg"
+                    src="{% static 'svg/blog.svg' %}"
+                    alt="blog svg"
+                />
+            </div>
+        </div>
+        <div id="start"></div>
+        <section>
+            <div class="end-point">
+                <div class="heading">New user SignUp</div>
+                <div class="route">/signup/</div>
+                <div class="extra-info">
+                    <div class="method">method : POST</div>
+                    <div class="info-txt"></div>
+                </div>
+            </div>
+            <article>
+                <div class="code">
+                    <pre>
+                        <code class="language-javascript">
+                            body
+                            {
+                            "username": REQUIRED
+                            "email": REQUIRED
+                            "password": REQUIRED
+                            "bio": OPTIONAL
+                            }
+                            
+                            //request
+                            axios.post('{{BASE_URL}}/signup/',{
+                            username:'shreyas',
+                            email:'shreyas@gmail.com',
+                            password:'1@345*hc'
+                            })
+                            .then((res)=>{
+                            console.log(res.data)
+                            }).catch(err=>{
+                            console.log(err.response.data)
+                            })
+                            
+                            
+                            //response
+                            {
+                            username: 'shreyas',
+                            email: 'shreyas@gmail.com',
+                            token: '15892a7a87be9892f42db64b9ed76535c59a0b26'
+                            }
+                            //errors
+                            {
+                            username: [ 'This field is required.' ],
+                            email: [ 'This field is required.' ],
+                            password: [ 'This field is required.' ]
+                            },
+                            
+                            {
+                            username: [ 'username is already taken' ],
+                            email: [ 'email is already registred' ],
+                            password: [ 'Ensure this field has at least 8 characters.' ]
+                            }
+
+                        </code>
+                    </pre>
+                </div>
+
+                <div class="small-svg">
+                    <img
+                        class="svg"
+                        src="{% static 'svg/auth.svg' %}"
+                        alt="blog svg"
+                    />
+                </div>
+            </article>
+        </section>
+
+        <section>
+            <div class="end-point">
+                <div class="heading">User Login</div>
+                <div class="route">/login/</div>
+                <div class="extra-info">
+                    <div class="method">method : POST</div>
+                    <div class="info-txt"></div>
+                </div>
+            </div>
+            <article>
+                <div class="code">
+                    <pre>
+                                <code class="language-javascript">
+                                    //request
+                                    axios
+                                    .post("{{BASE_URL}}/login/", {
+                                    username: "shreyas",
+                                    password: "1@345*hc",
+                                    })
+                                    .then((res) => {
+                                    console.log(res.data);
+                                    })
+                                    .catch((err) => {
+                                    console.log(err.response.data);
+                                    });
+                                    
+                                    //response
+                                    {
+                                    id: 4,
+                                    username: 'shreyas',
+                                    email: 'shreyas@gmail.com',
+                                    auth_token: 'e66628c5bb784e4b0c3366eecac938e18431ccbd'
+                                    }
+                                    
+                                    //errors
+                                    {
+                                    username: [ 'This field is required.' ],
+                                    password: [ 'This field is required.' ]
+                                    },
+                                    {
+                                    [ 'Invalid username/password' ]
+                                    }
+                                </code>
+                            </pre>
+                </div>
+                <div class="small-svg">
+                    <img
+                        class="svg"
+                        src="{% static 'svg/login.svg' %}"
+                        alt="blog svg"
+                    />
+                </div>
+            </article>
+        </section>
+
+        <section>
+            <div class="end-point">
+                <div class="heading">Update Profile</div>
+                <div class="route">/update-profile/</div>
+                <div class="extra-info">
+                    <div class="method">
+                        method : PUT / PATCH <br />
+                        Auth : REQUIRED
+                    </div>
+                    <div class="info-txt"></div>
+                </div>
+            </div>
+            <article>
+                <div class="code">
+                    <pre>
+                                <code class="language-javascript">
+                                    //request
+                                    axios
+                                    .patch(
+                                    "{{BASE_URL}}/update-profile/",
+                                    {
+                                    email: "newEmail@gmail.com",
+                                    bio: "bio update",
+                                    },
+                                    {
+                                    headers: {
+                                    //Token which you will get after login/signup
+                                    Authorization: "Token e66628c5bb784e4b0c3366eecac938e18431ccbd",
+                                    },
+                                    }
+                                    )
+                                    .then((res) => {
+                                    console.log(res.data);
+                                    })
+                                    .catch((err) => {
+                                    console.log(err.response.data);
+                                    });
+                                    
+                                    //reponse
+                                    {
+                                    message: 'Profile updated successfully',
+                                    data: [ 'email:newEmail@gmail.com', 'bio:bio update' ]
+                                    }
+                                    
+                                    //errors
+                                    {
+                                    //400
+                                    email: [ 'Enter a valid email address.' ]
+                                    },
+                                    {
+                                    //401
+                                    detail: 'Authentication credentials were not provided.'
+                                    }
+                                </code>
+                            </pre>
+                </div>
+                <div class="small-svg">
+                    <img
+                        class="svg"
+                        src="{% static 'svg/update.svg' %}"
+                        alt="blog svg"
+                    />
+                </div>
+            </article>
+        </section>
+
+        <section>
+            <div class="end-point">
+                <div class="heading">Change Password</div>
+                <div class="route">/change-password/</div>
+                <div class="extra-info">
+                    <div class="method">
+                        method : PUT / PATCH <br />
+                        Auth : REQUIRED
+                    </div>
+
+                    <div class="info-txt"></div>
+                </div>
+            </div>
+            <article>
+                <div class="code">
+                    <pre>
+                        <code class="language-javascript">
+                            //request
+                            axios
+                            .patch(
+                            "{{BASE_URL}}/change-password/",
+                            {
+                            old_password: "1@345*hc",
+                            password1: "qwerty123",
+                            password2: "qwerty123",
+                            },
+                            {
+                            headers: {
+                            //Token which you will get after login/signup
+                            Authorization: "Token e66628c5bb784e4b0c3366eecac938e18431ccbd",
+                            },
+                            }
+                            )
+                            .then((res) => {
+                            console.log(res.data);
+                            })
+                            .catch((err) => {
+                            console.log(err.response.data);
+                            });
+                            
+                            //response
+                            {
+                            status: 'success',
+                            code: 200,
+                            message: 'Password updated successfully',
+                            data: []
+                            //Token remains the same.
+                            }
+                            
+                            //errors
+                            {
+                            old_password: [ 'This field is required.' ],
+                            password1: [ 'This field is required.' ],
+                            password2: [ 'This field is required.' ]
+                            },
+                            {
+                            password1: [ 'Ensure this field has at least 8 characters.' ],
+                            password2: [ 'Ensure this field has at least 8 characters.' ]
+                            },
+                            {
+                            old_password: [ 'incorrect password.' ]
+                            }
+
+                            </code>
+                        </pre>
+                </div>
+                <div class="small-svg">
+                    <img
+                        class="svg"
+                        src="{% static 'svg/change-pass.svg' %}"
+                        alt="blog svg"
+                    />
+                </div>
+            </article>
+        </section>
+        <section>
+            <div class="end-point">
+                <div class="heading">Get All Blogs</div>
+                <div class="route">/blogs/</div>
+            </div>
+            <div class="extra-info">
+                <div class="method">method : GET</div>
+
+                <div class="info-txt"></div>
+            </div>
+            <article>
+                <div class="code">
+                    <pre>
+                        <code class="language-javascript">
+                            
+                        //fetchApi
+                        //request
+                        fetch('{{BASE_URL}}/blogs/', {
+                        method: 'GET',
+                        })
+                        .then(response => response.json())
+                        .then(data => console.log(data))
+                        .catch(err=>console.log(err))
+
+
+                        //axios
+                        //request
+                        axios
+                            .get("{{BASE_URL}}/blogs/")
+                            .then((res) => {
+                                console.log(res.data);
+                            })
+                            .catch((err) => {
+                                console.log(err.response.data);
+                            });
+                        //resopnse
+                        {
+                        count: 6,
+                        next: null,
+                        previous: null,
+                        results: [
+                            {
+                            id: 6,
+                            author: {
+                                        "id": 1,
+                                        "username": "shreyashc"
+                                    },
+                            title: 'last blog2',
+                            category: 'pythonlkn',
+                            description: 'sdafdsfl;',
+                            content: 'sfdsafdskm',
+                            thumbnail: '{{BASE_URL}}/media/images/blog_thumbnails/Untitled-1.psd',
+                            created_at: '2020-09-24T05:38:33.257468Z',
+                            no_of_likes: 0,
+                            no_of_comments: 0,
+                            comment: [],
+                            likes: []
+                            },
+                            {
+                            id: 5,
+                            author: {
+                                        "id": 1,
+                                        "username": "shreyashc"
+                                    },
+                            title: 'last blog',
+                            category: 'python',
+                            description: 'sdafdsf',
+                            content: 'sfdsafds',
+                            thumbnail: '{{BASE_URL}}/media/images/blog_thumbnails/Photo_20200607_153944.jpg',
+                            created_at: '2020-09-24T05:38:05.107503Z',
+                            no_of_likes: 0,
+                            no_of_comments: 0,
+                            comment: [],
+                            likes: []
+                            },
+                            //......
+                            //......
+                            //......
+                            ]}
+                            </code>
+                        </pre>
+                </div>
+                <div class="small-svg">
+                    <img
+                        class="svg"
+                        src="{% static 'svg/all-blogs.svg' %}"
+                        alt="blog svg"
+                    />
+                </div>
+            </article>
+        </section>
+
+        <section>
+            <div class="end-point">
+                <div class="heading">Get a single Blog</div>
+                <div class="route">/blogs/:id (Int)</div>
+                <div class="extra-info">
+                    <div class="method">method : GET</div>
+
+                    <div class="info-txt"></div>
+                </div>
+            </div>
+            <article>
+                <div class="code">
+                    <pre>
+                        <code class="language-javascript">
+                            
+//fetchApi
+//request
+fetch('{{BASE_URL}}/blogs/2', {
+  method: 'GET',
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(err=>console.log(err))
+
+
+//axios
+//request
+axios
+    .get("{{BASE_URL}}/blogs/2")
+    .then((res) => {
+        console.log(res.data);
+    })
+    .catch((err) => {
+        console.log(err.response.data);
+    });
+
+//response
+{
+  id: 2,
+  author: {
+       id: 2, username: 'manu'
+       },
+  title: 'Android',
+  category: 'categeory test',
+  description: 'this is a simple description',
+  content: "this is content.",
+  thumbnail: null,
+  created_at: '2020-09-22T06:15:40.646519Z',
+  no_of_likes: 2,
+  no_of_comments: 1,
+  comment: [
+            {
+            "id": 3,
+            "text": "hello",
+            "commented_by": {
+                "id": 1,
+                "username": "shreyashc"
+                }
+            }
+            ],
+  likes: [
+           {
+            "id": 2,
+            "liked_by": {
+                "id": 1,
+                "username": "shreyashc"
+                }
+            },
+        {
+            "id": 3,
+            "liked_by": {
+                "id": 2,
+                "username": "manu"
+            }
+        }
+    ]
+}
+                            </code>
+                        </pre>
+                </div>
+
+                <div class="small-svg">
+                    <img
+                        class="svg"
+                        src="{% static 'svg/single-blog.svg' %}"
+                        alt="blog svg"
+                    />
+                </div>
+            </article>
+        </section>
+
+        <button class="show-more-btn">Show More</button>
+
+        <div class="more">
+            <section>
+                <div class="end-point">
+                    <div class="heading">Create a Blog</div>
+                    <div class="route">/blogs/</div>
+                    <div class="extra-info">
+                        <div class="method">
+                            method : POST <br />
+                            Auth : REQUIRED
+                        </div>
+                        <div class="info-txt"></div>
+                    </div>
+                </div>
+                <article>
+                    <div class="code">
+                        <pre>
+                        <code class="language-javascript">
+                            
+//request
+axios
+    .post(
+        "{{BASE_URL}}/blogs/",
+        {
+            title: "This is new blog.",
+            description: "this is description",
+            content: "content goes here",
+        },
+        {
+            headers: {
+                 //Token which you will get after login/signup
+                Authorization: "Token e66628c5bb784e4b0c3366eecac938e18431ccbd",
+            },
+        }
+    )
+    .then((res) => {
+        console.log(res.data);
+    })
+    .catch((err) => {
+        console.log(err.response.data);
+    });
+
+//response
+{
+  id: 7,
+  author: { id: 4, username: 'shreyas' },
+  title: 'This is new blog.',
+  category: null,
+  description: 'this is description',
+  content: 'content goes here',
+  thumbnail: null,
+  created_at: '2020-09-26T06:05:45.786195Z',
+  no_of_likes: 0,
+  no_of_comments: 0,
+  comment: [],
+  likes: []
+}
+
+//errors
+{
+  title: [ 'This field is required.' ],
+  description: [ 'This field is required.' ]
+},
+{
+    detail: 'Authentication credentials were not provided.'
+ }
+                            </code>
+                        </pre>
+                    </div>
+
+                    <div class="small-svg">
+                        <img
+                            class="svg"
+                            src="{% static 'svg/post.svg' %}"
+                            alt="blog svg"
+                        />
+                    </div>
+                </article>
+            </section>
+
+            <section>
+                <div class="end-point">
+                    <div class="heading">Edit your Blog</div>
+                    <div class="route">/blogs/:blog-id (Int)/</div>
+                    <div class="extra-info">
+                        <div class="method">
+                            method : PUT/PATCH<br />
+                            Auth : REQUIRED
+                        </div>
+
+                        <div class="info-txt"></div>
+                    </div>
+                </div>
+                <article>
+                    <div class="code">
+                        <pre>
+                        <code class="language-javascript">
+
+//request
+axios
+    .patch(
+        "{{BASE_URL}}/blogs/7/",
+        {
+            title: "This is new blod has been edited.",
+            category: "fun",
+        },
+        {
+            headers: {
+                 //Token which you will get after login/signup
+                Authorization: "Token e66628c5bb784e4b0c3366eecac938e18431ccbd",
+            },
+        }
+    )
+    .then((res) => {
+        console.log(res.data);
+    })
+    .catch((err) => {
+        console.log(err.response.data);
+    });
+
+//response
+{
+  id: 7,
+  author: { id: 4, username: 'shreyas' },
+  title: 'This is new blod has been editd.',
+  category: 'fun',
+  description: 'this is description',
+  content: 'content goes here',
+  thumbnail: null,
+  created_at: '2020-09-26T06:05:45.786195Z',
+  no_of_likes: 0,
+  no_of_comments: 0,
+  comment: [],
+  likes: []
+}
+
+//errors
+{
+    detail: 'Authentication credentials were not provided.'
+ }
+                            </code>
+                        </pre>
+                    </div>
+                    <div class="small-svg">
+                        <img
+                            class="svg"
+                            src="{% static 'svg/update-blog.svg' %}"
+                            alt="blog svg"
+                        />
+                    </div>
+                </article>
+            </section>
+
+            <section>
+                <div class="end-point">
+                    <div class="heading">Delete your Blog</div>
+                    <div class="route">/blogs/:blog-id (Int)/</div>
+                    <div class="extra-info">
+                        <div class="method">
+                            method : DELETE <br />
+                            Auth : REQUIRED
+                        </div>
+
+                        <div class="info-txt"></div>
+                    </div>
+                </div>
+                <article>
+                    <div class="code">
+                        <pre>
+                        <code class="language-javascript">
+                            
+
+//request
+axios
+    .delete(
+        "{{BASE_URL}}/blogs/7/",
+
+        {
+            headers: {
+                //Token which you will get after login/signup
+                Authorization: "Token e66628c5bb784e4b0c3366eecac938e18431ccbd",
+            },
+        }
+    )
+    .then((res) => {
+        console.log(res.data);
+    })
+    .catch((err) => {
+        console.log(err.response.data);
+    });
+
+//response
+200;
+
+//errors
+{
+    detail: "Authentication credentials were not provided.";
+}
+                            </code>
+                        </pre>
+                    </div>
+                    <div class="small-svg">
+                        <img
+                            class="svg"
+                            src="{% static 'svg/delete.svg' %}"
+                            alt="blog svg"
+                        />
+                    </div>
+                </article>
+            </section>
+
+            <section>
+                <div class="end-point">
+                    <div class="heading">Like a Blog</div>
+                    <div class="route">/likes/</div>
+                    <div class="extra-info">
+                        <div class="method">
+                            method : POST <br />
+                            Auth : REQUIRED
+                        </div>
+
+                        <div class="info-txt"></div>
+                    </div>
+                </div>
+                <article>
+                    <div class="code">
+                        <pre>
+                        <code class="language-javascript">
+                            
+axios
+    .post(
+        "{{BASE_URL}}/likes/",
+        {
+            post: 1,
+        },
+        {
+            headers: {
+                 //Token which you will get after login/signup
+                Authorization: "Token e66628c5bb784e4b0c3366eecac938e18431ccbd",
+            },
+        }
+    )
+    .then((res) => {
+        console.log(res.data);
+    })
+    .catch((err) => {
+        console.log(err.response.data);
+    });
+//response
+{
+  id: 7,
+  post: 1,
+  liked_by: 4,
+  liked_at: '2020-09-26T06:20:08.152535Z'
+}
+
+//error
+{
+    error: 'already liked'
+},
+{
+    detail: "Authentication credentials were not provided.";
+}
+                            </code>
+                        </pre>
+                    </div>
+                    <div class="small-svg">
+                        <img
+                            class="svg"
+                            src="{% static 'svg/like.svg' %}"
+                            alt="blog svg"
+                        />
+                    </div>
+                </article>
+            </section>
+
+            <section>
+                <div class="end-point">
+                    <div class="heading">Remove like</div>
+                    <div class="route">/likes/:like-id (Int)/</div>
+                    <div class="extra-info">
+                        <div class="method">
+                            method : DELETE <br />
+                            Auth : REQUIRED
+                        </div>
+
+                        <div class="info-txt"></div>
+                    </div>
+                </div>
+                <article>
+                    <div class="code">
+                        <pre>
+                        <code class="language-javascript">
+axios
+    .delete(
+        "{{BASE_URL}}/likes/7",
+
+        {
+            headers: {
+                //Token which you will get after login/signup
+                Authorization: "Token e66628c5bb784e4b0c3366eecac938e18431ccbd",
+            },
+        }
+    )
+    .then((res) => {
+        console.log(res.data);
+    })
+    .catch((err) => {
+        console.log(err.response.data);
+    });
+//response
+OK;
+//errors
+{
+    detail: "Authentication credentials were not provided.";
+}
+                            </code>
+                        </pre>
+                    </div>
+                    <div class="small-svg">
+                        <img
+                            class="svg"
+                            src="{% static 'svg/dislike.svg' %}"
+                            alt="blog svg"
+                        />
+                    </div>
+                </article>
+            </section>
+
+            <section>
+                <div class="end-point">
+                    <div class="heading">Comment a Blog</div>
+                    <div class="route">/comments/</div>
+                    <div class="extra-info">
+                        <div class="method">
+                            method : POST <br />
+                            Auth : REQUIRED
+                        </div>
+                        <div class="info-txt"></div>
+                    </div>
+                </div>
+                <article>
+                    <div class="code">
+                        <pre>
+                        <code class="language-javascript">
+
+//request
+axios
+    .post(
+        "{{BASE_URL}}/comments/",
+        {
+            post: 1,
+            text: "nice post",
+        },
+
+        {
+            headers: {
+                 //Token which you will get after login/signup
+                Authorization: "Token e66628c5bb784e4b0c3366eecac938e18431ccbd",
+            },
+        }
+    )
+    .then((res) => {
+        console.log(res.data);
+    })
+    .catch((err) => {
+        console.log(err.response.data);
+    });
+
+//response
+{
+  id: 8,
+  post: 1,
+  text: 'nice post',
+  commented_by: 4,
+  commented_at: '2020-09-26T06:32:21.983423Z'
+}
+
+//errors
+{
+    detail: "Authentication credentials were not provided.";
+}
+                            </code>
+                        </pre>
+                    </div>
+                    <div class="small-svg">
+                        <img
+                            class="svg"
+                            src="{% static 'svg/comment.svg' %}"
+                            alt="blog svg"
+                        />
+                    </div>
+                </article>
+            </section>
+
+            <section>
+                <div class="end-point">
+                    <div class="heading">Edit your comment</div>
+                    <div class="route">/comments/:comment-id(Int)/</div>
+                    <div class="extra-info">
+                        <div class="method">
+                            method : PUT/PATCH <br />
+                            Auth : REQUIRED
+                        </div>
+                        <div class="info-txt"></div>
+                    </div>
+                </div>
+                <article>
+                    <div class="code">
+                        <pre>
+                        <code class="language-javascript">
+//request
+axios
+    .patch(
+        "{{BASE_URL}}/comments/8/",
+        {
+            text: "nice post edited",
+        },
+
+        {
+            headers: {
+                 //Token which you will get after login/signup
+                Authorization: "Token e66628c5bb784e4b0c3366eecac938e18431ccbd",
+            },
+        }
+    )
+    .then((res) => {
+        console.log(res.data);
+    })
+    .catch((err) => {
+        console.log(err.response.data);
+    });
+
+//response
+{
+  id: 8,
+  post: 1,
+  text: 'nice post edited',
+  commented_by: 4,
+  commented_at: '2020-09-26T06:32:21.983423Z'
+}
+
+//errors
+{
+    detail: "Authentication credentials were not provided.";
+}
+                            </code>
+                        </pre>
+                    </div>
+                    <div class="small-svg">
+                        <img
+                            class="svg"
+                            src="{% static 'svg/update-blog.svg' %}"
+                            alt="blog svg"
+                        />
+                    </div>
+                </article>
+            </section>
+
+            <section>
+                <div class="end-point">
+                    <div class="heading">Delete your comment</div>
+                    <div class="route">/comments/:comment-id(Int)/</div>
+                    <div class="extra-info">
+                        <div class="method">
+                            method : DELETE <br />
+                            Auth : REQUIRED
+                        </div>
+
+                        <div class="info-txt"></div>
+                    </div>
+                </div>
+                <article>
+                    <div class="code">
+                        <pre>
+                        <code class="language-javascript">
+ //request
+axios
+    .delete(
+        "{{BASE_URL}}/comments/8/",
+
+        {
+            headers: {
+                //Token which you will get after login/signup
+                Authorization: "Token e66628c5bb784e4b0c3366eecac938e18431ccbd",
+            },
+        }
+    )
+    .then((res) => {
+        console.log(res.data);
+    })
+    .catch((err) => {
+        console.log(err.response.data);
+    });
+
+//response
+OK;
+
+//errors
+{
+    detail: "Authentication credentials were not provided.";
+}
+                            </code>
+                        </pre>
+                    </div>
+                    <div class="small-svg">
+                        <img
+                            class="svg"
+                            src="{% static 'svg/delete.svg' %}"
+                            alt="blog svg"
+                        />
+                    </div>
+                </article>
+            </section>
+            <div class="full">
+                <a href="#" class="full-doc"> view full documentation </a>
+            </div>
+        </div>
+
+        <section id="contact">
+            <div class="title">Contact</div>
+            <div class="contact-wrap">
+                <div class="me">
+                    <p id="hc">Shreyas H C</p>
+                    <a>Hassan,Karnataka</a>
+                    <a href="mailto:shreyashc018@gmail.com"
+                        ><i class="fas fa-envelope"></i
+                        >shreyashc018@gmail.com</a
+                    >
+                    <a href="https://github.com/shreyashc"
+                        ><i class="fab fa-github"></i>shreyashc</a
+                    >
+                    <a href="https://www.instagram.com/shreyas_hc_/"
+                        ><i class="fab fa-instagram"></i>shreyas_hc_</a
+                    >
+                </div>
+                <div class="contact-svg">
+                    <img
+                        class="svg"
+                        src="{% static 'svg/contact.svg' %}"
+                        alt="blog svg"
+                    />
+                </div>
+            </div>
+        </section>
+        <section id="about">
+            <div class="title">About</div>
+            <div>
+                <h4>BLOG REST API</h4>
+                <p>Backend for Social Media/Blog.</p>
+                <small class="copy">Copyright &copy 2020 Shreyas hc</small>
+            </div>
+        </section>
+        <script src="{% static 'js/prism.js' %}"></script>
+        <script src="{% static 'js/app.js' %}"></script>
+    </body>
+</html>
