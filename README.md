@@ -1,10 +1,10 @@
 # Social Media/ Blog REST API
 
+## (Django,drf,PostgreSQL)
+
 ## live
 
 [https://hcblogapi.herokuapp.com/](https://hcblogapi.herokuapp.com/)
-
-## (Django,drf,PostgreSQL)
 
 Fully fledged rest api for social-media/blog
 using **Django** and **Django-rest-framework** and
@@ -19,6 +19,7 @@ using **Django** and **Django-rest-framework** and
 -   Token Authentication
 -   custom Admin pannel (/admin)
 -   search filters
+-   pagination
 -   .....
 
 ### TODO:
