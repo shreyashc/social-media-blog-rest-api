@@ -27,17 +27,17 @@ class UserCreate(APIView):
 
     def post(self, request, format='json'):
         serializer = BlogCustomUserSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            token = Token.objects.create(user=user)
-            json = {}
-            json['username'] = serializer.data['username']
-            json['email'] = serializer.data['email']
-            json['token'] = token.key
-            if user:
-                return Response(json, status=status.HTTP_201_CREATED)
+        serializer.is_valid(raise_exception=True)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        user = serializer.save()
+        token = Token.objects.create(user=user)
+
+        json = {}
+        json['username'] = serializer.data['username']
+        json['email'] = serializer.data['email']
+        json['token'] = token.key
+
+        return Response(json, status=status.HTTP_201_CREATED)
 
 
 class UserLogin(APIView):
@@ -46,12 +46,10 @@ class UserLogin(APIView):
     def post(self, request, format='json'):
         serializer = LoginSerializer(data=request.data)
 
-        if serializer.is_valid():
-            user = get_and_authenticate_user(**serializer.validated_data)
-            data = AuthSerializer(user).data
-            return Response(data=data, status=status.HTTP_200_OK)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        user = get_and_authenticate_user(**serializer.validated_data)
+        data = AuthSerializer(user).data
+        return Response(data=data, status=status.HTTP_200_OK)
 
 
 class ChangePassword(generics.UpdateAPIView):
@@ -68,25 +66,23 @@ class ChangePassword(generics.UpdateAPIView):
         self.object = self.get_object()
         serializer = ResetPasswordSerializer(data=request.data)
 
-        if serializer.is_valid():
+        serializer.is_valid(raise_exception=True)
 
-            if not self.object.check_password(serializer.validated_data.get("old_password")):
-                return Response({"old_password": ["incorrect password."]}, status=status.HTTP_400_BAD_REQUEST)
+        if not self.object.check_password(serializer.validated_data.get("old_password")):
+            return Response({"old_password": ["incorrect password."]}, status=status.HTTP_400_BAD_REQUEST)
 
-            self.object.set_password(
-                serializer.validated_data.get("password1"))
-            self.object.save()
+        self.object.set_password(
+            serializer.validated_data.get("password1"))
+        self.object.save()
 
-            response = {
-                'status': 'success',
-                'code': status.HTTP_200_OK,
-                'message': 'Password updated successfully',
-                'data': []
-            }
+        response = {
+            'status': 'success',
+            'code': status.HTTP_200_OK,
+            'message': 'Password updated successfully',
+            'data': []
+        }
 
-            return Response(response)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(response)
 
 
 class UpdateProfie(generics.UpdateAPIView):
@@ -103,27 +99,25 @@ class UpdateProfie(generics.UpdateAPIView):
         self.object = self.get_object()
 
         serializer = UpdateProfileSerializer(data=request.data)
-        if serializer.is_valid():
+        serializer.is_valid()
 
-            response = {
-                'message': 'No Changes were made.',
-                'data': []
-            }
+        response = {
+            'message': 'No Changes were made.',
+            'data': []
+        }
 
-            if serializer.validated_data.get("email"):
-                self.object.updateEmail(serializer.validated_data.get("email"))
-                self.object.save()
+        if serializer.validated_data.get("email"):
+            self.object.updateEmail(serializer.validated_data.get("email"))
+            self.object.save()
 
-                response['message'] = 'Profile updated successfully'
-                response['data'].append("email:"+self.object.email)
+            response['message'] = 'Profile updated successfully'
+            response['data'].append("email:"+self.object.email)
 
-            if serializer.validated_data.get("bio"):
-                self.object.updateBio(serializer.validated_data.get("bio"))
-                self.object.save()
+        if serializer.validated_data.get("bio"):
+            self.object.updateBio(serializer.validated_data.get("bio"))
+            self.object.save()
 
-                response['message'] = 'Profile updated successfully'
-                response['data'].append("bio:"+self.object.bio)
+            response['message'] = 'Profile updated successfully'
+            response['data'].append("bio:"+self.object.bio)
 
-            return Response(response)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(response)
